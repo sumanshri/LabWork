@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import Homepage from "./Routes/Homepage";
+import Loginpage from "./Routes/Loginpage";
 
 export default function Index() {
   return (
     <View>
-      <Homepage />
+      <Loginpage />
     </View>
   );
 }

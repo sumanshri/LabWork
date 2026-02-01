@@ -9,23 +9,13 @@ export function NavBar() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push("/")}>
-        <Text style={[styles.item, isActive("/") && styles.active]}>
+      <TouchableOpacity onPress={() => router.push("../Routes/Homepage")}>
+        <Text style={[styles.item, isActive("../Routes/Homepage") && styles.active]}>
           Home
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push("/settings")}>
-        <Text style={[styles.item, isActive("/settings") && styles.active]}>
-          Settings
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => router.push("/profile")}>
-        <Text style={[styles.item, isActive("/profile") && styles.active]}>
-          Profile
-        </Text>
-      </TouchableOpacity>
+      
     </View>
   );
 }

@@ -1,14 +1,20 @@
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
-import ReturnToSignInBtn from "../components/buttons/ReturnToSignInBtn";
+import { useState } from "react";
 
-export default function ReturnPage() {
+import BackToSignIn from "../components/buttons/backtosignin";
+import EmailInput from "../components/EmailInput";
+import SendEmailBtn from "../components/buttons/SendEmailBtn";
+
+export default function ForgetPassword() {
+  const [email, setEmail] = useState("");
+
   return (
     <SafeAreaView className="flex-1 bg-indigo-600">
       
-      {/* Header with optional back arrow */}
+      {/* Header with back arrow */}
       <View className="flex-row items-center px-5 pt-4">
-        {/* You can add <BackToSignIn /> here if needed */}
-        <Text className="text-white text-lg">Reset Password</Text>
+        <BackToSignIn />
+        <Text className="text-white text-lg ml-4">Reset Password</Text>
       </View>
 
       {/* Title */}
@@ -21,15 +27,18 @@ export default function ReturnPage() {
         className="mt-8 bg-white rounded-t-3xl px-6 pt-8"
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <Text className="text-2xl font-bold text-center">Reset Password</Text>
-        <Text className="text-gray-400 text-center mt-1 px-4">
-          Check your mail for a link to reset your password. If not found, check your spam folder.
+        <Text className="text-gray-400 text-center mt-1">
+          Enter your user account’s verified email to get reset password link
         </Text>
 
         <View className="mt-6">
-          <ReturnToSignInBtn />
+          <EmailInput value={email} onChangeText={setEmail} />
         </View>
+
+        <SendEmailBtn email={email} />
       </ScrollView>
     </SafeAreaView>
   );
