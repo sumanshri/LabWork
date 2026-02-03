@@ -1,4 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import { useState } from "react"; // ✅ added
 
 import UserId from "../components/userid";
 import EmailPhone from "../components/emailphone";
@@ -11,6 +12,8 @@ import FacebookBtn from "../components/buttons/facebook";
 import BackToSignIn from "../components/buttons/backtosignin";
 
 export default function Getstartedpage() {
+  const [userId, setUserId] = useState(""); // ✅ added
+
   return (
     <SafeAreaView className="flex-1 bg-indigo-600">
       
@@ -32,7 +35,7 @@ export default function Getstartedpage() {
       {/* Scrollable card */}
       <ScrollView
         className="mt-8 bg-white rounded-t-3xl px-6 pt-8"
-        contentContainerStyle={{ paddingBottom: 100 }} // 👈 key fix
+        contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
@@ -44,7 +47,8 @@ export default function Getstartedpage() {
         </Text>
 
         <View className="mt-6">
-          <UserId />
+          {/* ✅ FIXED */}
+          <UserId value={userId} onChangeText={setUserId} />
           <Password />
           <ConfirmPassword />
           <EmailPhone />
