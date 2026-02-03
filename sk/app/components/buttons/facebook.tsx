@@ -6,8 +6,11 @@ export default function FacebookBtn() {
       <View className="flex-row items-center justify-center">
         {/* Facebook Icon */}
         <Image
-          source={require("C:/Users/kisho/OneDrive/Desktop/smartlab/sk/assets/images/facebook.png")} // relative path
+          source={{
+            uri: "https://ik.imagekit.io/tnw9mtksh/my%20assets/facebook.png_updatedAt=1770021419126",
+          }}
           style={{ width: 20, height: 20, marginRight: 8 }}
+          resizeMode="contain"
         />
 
         {/* Button Text */}

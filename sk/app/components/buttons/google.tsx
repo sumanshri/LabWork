@@ -6,8 +6,11 @@ export default function GoogleBtn() {
       <View className="flex-row items-center justify-center">
         {/* Google Icon */}
         <Image
-          source={require("C:/Users/kisho/OneDrive/Desktop/smartlab/sk/assets/images/google.png")} // adjust path if needed
+          source={{
+            uri: "https://ik.imagekit.io/tnw9mtksh/my%20assets/google.png",
+          }}
           style={{ width: 20, height: 20, marginRight: 8 }}
+          resizeMode="contain"
         />
 
         {/* Button Text */}
