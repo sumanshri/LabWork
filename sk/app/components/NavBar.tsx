@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter, usePathname } from "expo-router";
 
-export function NavBar() {
+export default function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -9,13 +9,33 @@ export function NavBar() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push("../Routes/Homepage")}>
+      <TouchableOpacity onPress={() => router.replace("../Routes/Homepage")}>
         <Text style={[styles.item, isActive("../Routes/Homepage") && styles.active]}>
           Home
         </Text>
       </TouchableOpacity>
 
-      
+      <TouchableOpacity onPress={() => router.replace("../Routes/Surveillance")}>
+        <Text
+          style={[
+            styles.item,
+            isActive("../Routes/Surveillance") && styles.active,
+          ]}
+        >
+          Surveillance
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.replace("../Routes/Settings")}>
+        <Text
+          style={[
+            styles.item,
+            isActive("../Routes/Settings") && styles.active,
+          ]}
+        >
+          Settings
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -30,16 +50,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "#111",
+    backgroundColor: "#0f3424", // dark green
     borderTopWidth: 1,
-    borderTopColor: "#333",
+    borderTopColor: "#184e37",
   },
   item: {
-    color: "#aaa",
-    fontSize: 16,
+    color: "#b7d6c5",
+    fontSize: 14,
+    fontWeight: "500",
   },
   active: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: "#fafcfb",
+    fontWeight: "700",
   },
 });

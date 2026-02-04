@@ -7,7 +7,7 @@ export default function CreateBtn() {
   return (
     <TouchableOpacity
       className="bg-black py-4 rounded-xl mt-4"
-      onPress={() => router.push("/Routes/InputPage")}
+      onPress={() => router.push("../Routes/Inputpage")}
     >
       <Text className="text-white text-center text-lg font-semibold">
         Create Account

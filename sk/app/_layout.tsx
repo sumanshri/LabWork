@@ -1,17 +1,25 @@
-// app/_layout.tsx
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
 import "../global.css";
-import { NavBar } from "./components/NavBar";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import NavBar from "./components/NavBar";
 
 export default function RootLayout() {
-  
+  const pathname = usePathname();
+
+  // Pages where NavBar SHOULD be visible
+  const showNavBarRoutes = [
+    "/Routes/Homepage",
+    "/Routes/Surveillance",
+    "/Routes/Settings",
+  ];
+
+  const showNavBar = showNavBarRoutes.includes(pathname);
+
   return (
     <View style={{ flex: 1 }}>
       <Stack screenOptions={{ headerShown: false }} />
 
-      {/* Absolute navbar */}
-      <NavBar />
+      {showNavBar && <NavBar />}
     </View>
   );
 }
