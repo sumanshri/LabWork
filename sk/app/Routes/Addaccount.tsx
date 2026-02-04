@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Text, SafeAreaView, Dimensions } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import { useFocusEffect } from "expo-router";
 
 import ExistingPage from "../components/buttons/existingpage";
 import NewAccount from "../components/buttons/newaccount";
@@ -14,23 +15,28 @@ import Handle from "../components/Handle";
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function Addaccount() {
-  // Bottom sheet visible less than half initially
   const translateY = useSharedValue(SCREEN_HEIGHT * 0.7);
   const startY = useSharedValue(0);
 
+  // ✅ RESET bottom sheet every time page opens
+  useFocusEffect(
+    useCallback(() => {
+      translateY.value = SCREEN_HEIGHT * 0.7;
+    }, [])
+  );
+
   const panGesture = Gesture.Pan()
-    .onStart((event) => {
+    .onStart(() => {
       startY.value = translateY.value;
     })
     .onUpdate((event) => {
       translateY.value = Math.max(0, startY.value + event.translationY);
     })
     .onEnd(() => {
-      if (translateY.value > SCREEN_HEIGHT / 2) {
-        translateY.value = withSpring(SCREEN_HEIGHT * 0.7);
-      } else {
-        translateY.value = withSpring(0);
-      }
+      translateY.value =
+        translateY.value > SCREEN_HEIGHT / 2
+          ? withSpring(SCREEN_HEIGHT * 0.7)
+          : withSpring(0);
     });
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -39,14 +45,12 @@ export default function Addaccount() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      {/* Title */}
       <View className="mt-6 items-center">
         <Text className="text-lg font-semibold text-gray-900">
           Add account
         </Text>
       </View>
 
-      {/* Bottom Sheet */}
       <Animated.View
         style={[
           {
@@ -61,7 +65,6 @@ export default function Addaccount() {
           animatedStyle,
         ]}
       >
-        {/* Handle ONLY is draggable */}
         <GestureDetector gesture={panGesture}>
           <View>
             <Handle />
