@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { useState } from "react"; // ✅ added
 
 import UserId from "../components/userid";
 import Password from "../components/password";
@@ -12,6 +13,7 @@ import GetStartedBtn from "../components/buttons/getstarted";
 
 export default function Loginpage() {
   const router = useRouter();
+  const [userId, setUserId] = useState(""); // ✅ added
 
   return (
     <SafeAreaView className="flex-1 bg-indigo-600">
@@ -37,7 +39,8 @@ export default function Loginpage() {
         </Text>
 
         <View className="mt-6">
-          <UserId />
+          {/* ✅ pass props */}
+          <UserId value={userId} onChangeText={setUserId} />
           <Password />
           <ForgetPwd />
         </View>

@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import Loginpage from "./Routes/Loginpage";
+import Getstartedpage from "./Routes/Deleteaccount";
 
 export default function Index() {
   return (
     <View>
-      <Loginpage />
+      <Getstartedpage />
     </View>
   );
 }
