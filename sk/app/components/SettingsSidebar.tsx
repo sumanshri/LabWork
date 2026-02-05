@@ -29,17 +29,29 @@ export default function SettingsSidebar({
   onClose: () => void;
 }) {
   const slide = useRef(new Animated.Value(W)).current;
+  const [shouldRender, setShouldRender] = useState(visible);
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    Animated.timing(slide, {
-      toValue: visible ? 0 : W,
-      duration: 260,
-      useNativeDriver: true,
-    }).start();
+    if (visible) {
+      setShouldRender(true);
+      Animated.timing(slide, {
+        toValue: 0,
+        duration: 260,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(slide, {
+        toValue: W,
+        duration: 260,
+        useNativeDriver: true,
+      }).start(() => {
+        setShouldRender(false); // ✅ unmount AFTER animation
+      });
+    }
   }, [visible]);
 
-  if (!visible) return null;
+  if (!shouldRender) return null;
 
   return (
     <>
@@ -105,8 +117,9 @@ export default function SettingsSidebar({
           <Deviceloggedbtn onClose={onClose} />
           <EditInputBtn onClose={onClose} />
           <AddaccountBtn onClose={onClose} />
+
           <DeleteaccountBtn onClose={onClose} />
-          <LogoutBtn />
+          <LogoutBtn onClose={onClose} />
 
           <View className="h-px bg-zinc-700 mx-3 my-3" />
 

@@ -1,7 +1,19 @@
 import { useState } from "react";
-import { View, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, TextInput, TouchableOpacity, Image, Text } from "react-native";
 
-export default function ConfirmPassword() {
+type Props = {
+  value: string;
+  onChangeText: (text: string) => void;
+  error?: boolean;
+  mismatch?: boolean;
+};
+
+export default function ConfirmPassword({
+  value,
+  onChangeText,
+  error,
+  mismatch,
+}: Props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
@@ -9,7 +21,11 @@ export default function ConfirmPassword() {
       <TextInput
         placeholder="Confirm Password"
         secureTextEntry={!passwordVisible}
-        className="border border-gray-300 rounded-xl px-4 py-4 pr-10"
+        value={value}
+        onChangeText={onChangeText}
+        className={`border rounded-xl px-4 py-4 pr-10 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
       />
 
       <TouchableOpacity
@@ -19,12 +35,24 @@ export default function ConfirmPassword() {
         <Image
           source={{
             uri: passwordVisible
-              ? "https://ik.imagekit.io/tnw9mtksh/my%20assets/open_eye.png?updatedAt=1770046305821"
-              : "https://ik.imagekit.io/tnw9mtksh/my%20assets/close_eye.png?updatedAt=1770046261997",
+              ? "https://ik.imagekit.io/tnw9mtksh/my%20assets/open_eye.png"
+              : "https://ik.imagekit.io/tnw9mtksh/my%20assets/close_eye.png",
           }}
           style={{ width: 24, height: 24 }}
         />
       </TouchableOpacity>
+
+      {error && !mismatch && (
+        <Text className="text-red-500 text-xs mt-1">
+          Confirm password is required
+        </Text>
+      )}
+
+      {mismatch && (
+        <Text className="text-red-500 text-xs mt-1">
+          Passwords do not match
+        </Text>
+      )}
     </View>
   );
 }

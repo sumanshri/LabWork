@@ -1,3 +1,5 @@
+// app/components/buttons/Addaccountbtn.tsx
+
 import { TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -5,15 +7,18 @@ import { useRouter } from "expo-router";
 export default function AddAccountBtn({
   onClose,
 }: {
-  onClose?: () => void;
+  onClose: () => void;
 }) {
   const router = useRouter();
 
   const handlePress = () => {
-    onClose?.(); // ✅ close sidebar first
-    setTimeout(() => {
-      router.push("/Routes/Addaccount");
-    }, 200); // ✅ wait for sidebar animation
+    // 🔥 CLOSE SIDEBAR FIRST
+    onClose();
+
+    // 🔥 navigate AFTER sidebar is fully unmounted
+    requestAnimationFrame(() => {
+      router.replace("/Routes/Addaccount");
+    });
   };
 
   return (

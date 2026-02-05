@@ -1,13 +1,21 @@
 import { TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { clearDevices } from "../../utils/deviceStore";
 
-export default function LogoutBtn() {
+type Props = {
+  onClose?: () => void;
+};
+
+export default function LogoutBtn({ onClose }: Props) {
   const router = useRouter();
 
   const logout = () => {
-    // later: clear token / storage
-    router.replace("/Routes/Loginpage");
+    onClose?.(); // ✅ close sidebar first
+    setTimeout(() => {
+      clearDevices();
+      router.replace("/Routes/Loginpage");
+    }, 200);
   };
 
   return (

@@ -2,17 +2,17 @@ import { TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-export default function DeleteAccountBtn({
-  onClose,
-}: {
+type Props = {
   onClose?: () => void;
-}) {
+};
+
+export default function DeleteAccountBtn({ onClose }: Props) {
   const router = useRouter();
 
   const handlePress = () => {
     onClose?.(); // close sidebar first
     setTimeout(() => {
-      router.push("/Routes/Deleteaccount");
+      router.push("/Routes/Deleteaccount"); // ✅ go to confirmation page
     }, 200);
   };
 

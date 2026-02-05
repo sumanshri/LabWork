@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { View, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, TextInput, TouchableOpacity, Image, Text } from "react-native";
 
-export default function Password() {
+type Props = {
+  value: string;
+  onChangeText: (text: string) => void;
+  error?: boolean;
+};
+
+export default function Password({ value, onChangeText, error }: Props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
@@ -9,7 +15,11 @@ export default function Password() {
       <TextInput
         placeholder="Password"
         secureTextEntry={!passwordVisible}
-        className="border border-gray-300 rounded-xl px-4 py-4 pr-10"
+        value={value}
+        onChangeText={onChangeText}
+        className={`border rounded-xl px-4 py-4 pr-10 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
       />
 
       <TouchableOpacity
@@ -19,13 +29,18 @@ export default function Password() {
         <Image
           source={{
             uri: passwordVisible
-              ? "https://ik.imagekit.io/tnw9mtksh/my%20assets/open_eye.png?updatedAt=1770046305821"
-              : "https://ik.imagekit.io/tnw9mtksh/my%20assets/close_eye.png?updatedAt=1770046261997",
+              ? "https://ik.imagekit.io/tnw9mtksh/my%20assets/open_eye.png"
+              : "https://ik.imagekit.io/tnw9mtksh/my%20assets/close_eye.png",
           }}
           style={{ width: 24, height: 24 }}
-          resizeMode="contain"
         />
       </TouchableOpacity>
+
+      {error && (
+        <Text className="text-red-500 text-xs mt-1">
+          Password is required
+        </Text>
+      )}
     </View>
   );
 }

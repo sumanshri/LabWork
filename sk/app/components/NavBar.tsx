@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import SettingsSidebar from "./SettingsSidebar";
 
-export function NavBar() {
+export default function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const [openSettings, setOpenSettings] = useState(false);
@@ -14,45 +14,28 @@ export function NavBar() {
   return (
     <>
       <View style={styles.container}>
-        {/* Home */}
         <TouchableOpacity onPress={() => router.push("/Routes/Homepage")}>
           <Ionicons
             name={isActive("/Routes/Homepage") ? "home" : "home-outline"}
             size={24}
-            color={isActive("/Routes/Homepage") ? "#fff" : "#aaa"}
+            color="#fff"
           />
         </TouchableOpacity>
 
-        {/* Surveillance */}
-        <TouchableOpacity
-          onPress={() => router.push("/Routes/Surveillancepage")}
-        >
+        <TouchableOpacity onPress={() => router.push("/Routes/Surveillance")}>
           <Ionicons
-            name={
-              isActive("/Routes/Surveillancepage")
-                ? "videocam"
-                : "videocam-outline"
-            }
+            name={isActive("/Routes/Surveillance") ? "videocam" : "videocam-outline"}
             size={24}
-            color={isActive("/Routes/Surveillancepage") ? "#fff" : "#aaa"}
+            color="#fff"
           />
         </TouchableOpacity>
 
-        {/* Settings (SIDEBAR, NOT ROUTE) */}
         <TouchableOpacity onPress={() => setOpenSettings(true)}>
-          <Ionicons
-            name="settings-outline"
-            size={24}
-            color="#aaa"
-          />
+          <Ionicons name="settings-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      {/* Settings Sidebar */}
-      <SettingsSidebar
-        visible={openSettings}
-        onClose={() => setOpenSettings(false)}
-      />
+      <SettingsSidebar visible={openSettings} onClose={() => setOpenSettings(false)} />
     </>
   );
 }
@@ -67,8 +50,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "#111",
-    borderTopWidth: 1,
-    borderTopColor: "#333",
+    backgroundColor: "#0f3424",
   },
 });

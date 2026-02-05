@@ -7,7 +7,7 @@ export default function ExistingPage() {
   return (
     <TouchableOpacity
       className="bg-white border border-gray-300 rounded-xl py-4 mb-3"
-      onPress={() => router.push("../Routes/Loginpage")}
+      onPress={() => router.replace("/Routes/Loginpage")}
     >
       <Text className="text-center text-gray-900 font-medium">
         Login into existing account

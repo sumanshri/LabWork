@@ -12,7 +12,7 @@ export default function EditInputBtn({ onClose }: Props) {
   const handlePress = () => {
     onClose?.();
     setTimeout(() => {
-      router.push("/Routes/InputPage");
+      router.push("/Routes/Inputpage"); // ✅ absolute path
     }, 200);
   };
 

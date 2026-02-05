@@ -1,14 +1,8 @@
 import { TouchableOpacity, Text } from "react-native";
-import { useRouter } from "expo-router";
 
-export default function CreateBtn() {
-  const router = useRouter();
-
+export default function CreateBtn({ onPress }: { onPress: () => void }) {
   return (
-    <TouchableOpacity
-      className="bg-black py-4 rounded-xl mt-4"
-      onPress={() => router.push("/Routes/InputPage")}
-    >
+    <TouchableOpacity className="bg-black py-4 rounded-xl mt-4" onPress={onPress}>
       <Text className="text-white text-center text-lg font-semibold">
         Create Account
       </Text>

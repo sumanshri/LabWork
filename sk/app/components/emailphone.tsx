@@ -1,11 +1,13 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, Text } from "react-native";
 
 export default function EmailPhone({
   value,
   onChangeText,
+  error,
 }: {
   value?: string;
   onChangeText?: (text: string) => void;
+  error?: boolean;
 }) {
   return (
     <View className="mb-2">
@@ -15,8 +17,15 @@ export default function EmailPhone({
         autoCapitalize="none"
         value={value}
         onChangeText={onChangeText}
-        className="border border-gray-300 rounded-xl px-4 py-4"
+        className={`border rounded-xl px-4 py-4 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
       />
+      {error && (
+        <Text className="text-red-500 text-xs mt-1">
+          Email or phone is required
+        </Text>
+      )}
     </View>
   );
 }

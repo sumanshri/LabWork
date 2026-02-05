@@ -7,7 +7,7 @@ export default function NewAccount() {
   return (
     <TouchableOpacity
       className="bg-white border border-gray-300 rounded-xl py-4"
-      onPress={() => router.push("../Routes/Getstartedpage")}
+      onPress={() => router.push("/Routes/Getstartedpage")}
     >
       <Text className="text-center text-gray-900 font-medium">
         Create new account

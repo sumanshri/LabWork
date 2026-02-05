@@ -1,4 +1,6 @@
-import React, { useCallback } from "react";
+// app/Routes/Addaccount.tsx
+
+import React, { useEffect } from "react";
 import { View, Text, SafeAreaView, Dimensions } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -6,36 +8,39 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { useFocusEffect } from "expo-router";
 
 import ExistingPage from "../components/buttons/existingpage";
 import NewAccount from "../components/buttons/newaccount";
 import Handle from "../components/Handle";
+import BackToHome from "../components/buttons/backtohome";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+const SHEET_HEIGHT = SCREEN_HEIGHT * 0.35;
 
 export default function Addaccount() {
-  const translateY = useSharedValue(SCREEN_HEIGHT * 0.7);
+  // ✅ START VISIBLE
+  const translateY = useSharedValue(SHEET_HEIGHT);
   const startY = useSharedValue(0);
 
-  // ✅ RESET bottom sheet every time page opens
-  useFocusEffect(
-    useCallback(() => {
-      translateY.value = SCREEN_HEIGHT * 0.7;
-    }, [])
-  );
+  // ✅ smooth settle animation
+  useEffect(() => {
+    translateY.value = withSpring(0);
+  }, []);
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
       startY.value = translateY.value;
     })
     .onUpdate((event) => {
-      translateY.value = Math.max(0, startY.value + event.translationY);
+      translateY.value = Math.max(
+        0,
+        startY.value + event.translationY
+      );
     })
     .onEnd(() => {
       translateY.value =
-        translateY.value > SCREEN_HEIGHT / 2
-          ? withSpring(SCREEN_HEIGHT * 0.7)
+        translateY.value > SHEET_HEIGHT / 2
+          ? withSpring(SHEET_HEIGHT)
           : withSpring(0);
     });
 
@@ -45,12 +50,19 @@ export default function Addaccount() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="mt-6 items-center">
-        <Text className="text-lg font-semibold text-gray-900">
+      {/* Header */}
+      <View className="flex-row items-center px-4 mt-6">
+        <BackToHome />
+
+        <Text className="flex-1 text-center text-lg font-semibold text-gray-900">
           Add account
         </Text>
+
+        {/* Spacer for symmetry */}
+        <View className="w-6" />
       </View>
 
+      {/* Bottom Sheet */}
       <Animated.View
         style={[
           {
@@ -75,6 +87,7 @@ export default function Addaccount() {
           Add account +
         </Text>
 
+        {/* ✅ ALWAYS VISIBLE */}
         <ExistingPage />
         <NewAccount />
       </Animated.View>
