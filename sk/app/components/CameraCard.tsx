@@ -8,12 +8,17 @@ type Props = {
   onPress: () => void;
 };
 
-export default function CameraCard({ name, videoUri, alert, onPress }: Props) {
+export default function CameraCard({
+  name,
+  videoUri,
+  alert,
+  onPress,
+}: Props) {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.card, alert && styles.alertBorder]}
-      activeOpacity={0.85}
+      activeOpacity={0.9}
     >
       <View style={styles.header}>
         <Text style={styles.title}>{name}</Text>
@@ -23,14 +28,13 @@ export default function CameraCard({ name, videoUri, alert, onPress }: Props) {
       <Video
         source={{ uri: videoUri }}
         style={styles.video}
-        
         resizeMode={ResizeMode.COVER}
         shouldPlay={false}
-        isLooping
+        isMuted
       />
 
       {alert && (
-        <Text style={styles.alertText}>⚠ Unauthorized movement detected</Text>
+        <Text style={styles.alertText}>⚠ Abnormal activity detected</Text>
       )}
     </TouchableOpacity>
   );
@@ -38,9 +42,9 @@ export default function CameraCard({ name, videoUri, alert, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 20,
+    marginBottom: 18,
     backgroundColor: "#fff",
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 10,
   },
   alertBorder: {
@@ -50,7 +54,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 6,
   },
   title: {
@@ -68,8 +71,9 @@ const styles = StyleSheet.create({
   },
   video: {
     width: "100%",
-    height: 200,
-    borderRadius: 10,
+    height: 180,
+    borderRadius: 12,
+    backgroundColor: "#000",
   },
   alertText: {
     marginTop: 6,

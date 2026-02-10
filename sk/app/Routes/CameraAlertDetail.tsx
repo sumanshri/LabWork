@@ -2,82 +2,59 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from "react-na
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
-import NavBar from "../components/NavBar";
 
 export default function CameraAlertDetail() {
   const router = useRouter();
-  const { name, uri } = useLocalSearchParams();
+  const { name, uri, alert, alertMsg } = useLocalSearchParams();
 
   return (
     <SafeAreaView style={styles.container}>
-      
-      {/* 🔙 Header with Back Button */}
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#000" />
         </TouchableOpacity>
-
         <Text style={styles.title}>{name}</Text>
       </View>
 
-      {/* 🎥 Video aligned to LEFT */}
-      <View style={styles.videoWrapper}>
-        <Video
-          source={{ uri: String(uri) }}
-          style={styles.video}
-          useNativeControls
-          resizeMode={ResizeMode.CONTAIN}
-        />
-      </View>
+      {/* Focus Video */}
+      <Video
+        source={{ uri: String(uri) }}
+        style={styles.video}
+        useNativeControls
+        resizeMode={ResizeMode.CONTAIN}
+      />
 
-      {/* ⚠ Alert Details */}
-      <View style={styles.alertBox}>
-        <Text style={styles.alertTitle}>⚠ Alert Details</Text>
-        <Text>• Motion detected</Text>
-        <Text>• Unauthorized entry</Text>
-        <Text>• ML confidence: 87%</Text>
-        <Text>• Timestamp: 14:32:10</Text>
-      </View>
-
-      {/* 🚫 Navbar should be hidden until homepage
-          If this page is AFTER homepage, keep it.
-          Otherwise remove NavBar here */}
-      <NavBar />
+      {/* Alert Section */}
+      {alert === "true" && (
+        <View style={styles.alertBox}>
+          <Text style={styles.alertTitle}>⚠ Alert Details</Text>
+          <Text>• {alertMsg}</Text>
+          <Text>• Motion classification: Human</Text>
+          <Text>• Confidence: 87%</Text>
+          <Text>• Timestamp: {new Date().toLocaleTimeString()}</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-
+  container: { flex: 1, backgroundColor: "#fff" },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    paddingBottom: 12,
+    padding: 16,
   },
-
   title: {
     fontSize: 20,
     fontWeight: "700",
     marginLeft: 12,
   },
-
-  videoWrapper: {
-    alignItems: "flex-start", // LEFT alignment
-    paddingLeft: 16,
-    marginTop: 8,
-  },
-
   video: {
-    width: "90%",
-    height: 260,
+    width: "100%",
+    height: 280,
     backgroundColor: "#000",
-    borderRadius: 12,
   },
 
   alertBox: {

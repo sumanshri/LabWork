@@ -1,30 +1,57 @@
 import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { useEffect, useState } from "react";
 import CameraCard from "../components/CameraCard";
 import NavBar from "../components/NavBar";
 import { useRouter } from "expo-router";
+import { getDevices } from "../utils/deviceStore";
+
+type Camera = {
+  id: number;
+  name: string;
+  streamUrl: string;
+  alert: boolean;
+  alertMsg: string;
+};
 
 export default function Surveillance() {
   const router = useRouter();
+  const [cameras, setCameras] = useState<Camera[]>([]);
 
-  const cameras = [
-    { name: "Camera 1", uri: "https://www.w3schools.com/html/movie.mp4", alert: false },
-    { name: "Camera 2", uri: "https://www.w3schools.com/html/mov_bbb.mp4", alert: true },
-  ];
-  
+  useEffect(() => {
+    const { cameras: cameraCount } = getDevices();
+
+    const camList: Camera[] = Array.from({ length: cameraCount }).map(
+      (_, i) => ({
+        id: i + 1,
+        name: `Camera ${i + 1}`,
+        streamUrl:
+          "https://www.w3schools.com/html/mov_bbb.mp4", // replace with RTSP→HLS later
+        alert: i % 2 === 0, // demo alert logic
+        alertMsg: "Unauthorized movement detected",
+      })
+    );
+
+    setCameras(camList);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {cameras.map((cam, i) => (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {cameras.map((cam) => (
           <CameraCard
-            key={i}
+            key={cam.id}
             name={cam.name}
-            videoUri={cam.uri}
+            videoUri={cam.streamUrl}
             alert={cam.alert}
             onPress={() =>
               router.push({
                 pathname: "/Routes/CameraAlertDetail",
-                params: { ...cam, alert: cam.alert.toString() },
+                params: {
+                  name: cam.name,
+                  uri: cam.streamUrl,
+                  alert: String(cam.alert),
+                  alertMsg: cam.alertMsg,
+                },
               })
             }
           />
@@ -37,5 +64,9 @@ export default function Surveillance() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F8FAFC", padding: 12 },
+  container: {
+    flex: 1,
+    backgroundColor: "#F8FAFC",
+    padding: 12,
+  },
 });
